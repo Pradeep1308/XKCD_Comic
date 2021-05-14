@@ -15,11 +15,12 @@ $redirectedUrl .="info.0.json";
 curl_close($ch);
 return $redirectedUrl;
 }
- // function to send mail
+// function to send mail
 function sendmail($to,$image,$title)
 {
 $from="Pradeep";
 $subject = 'Your Comic for the moment';
+$file = 'comicOFtheMoment.png';
 
 $htmlContent='
 <h1>'.$title.'</h1>
@@ -30,10 +31,26 @@ $mime_boundary = "==Multipart_Boundary_x{$semi_rand}x";
 $headers .= "\nMIME-Version: 1.0\n" . "Content-Type: multipart/mixed;\n" . " boundary=\"{$mime_boundary}\""; 
  $message = "--{$mime_boundary}\n" . "Content-Type: text/html; charset=\"UTF-8\"\n" . 
 "Content-Transfer-Encoding: 7bit\n\n" . $htmlContent . "\n\n";  
+//attaching file
+if(!empty($file) > 0){ 
+    if(is_file($file)){ 
+        $message .= "--{$mime_boundary}\n"; 
+        $fp =    @fopen($file,"rb"); 
+        $data =  @fread($fp,filesize($file)); 
+ 
+        @fclose($fp); 
+        $data = chunk_split(base64_encode($data)); 
+        $message .= "Content-Type: application/octet-stream; name=\"".basename($file)."\"\n" .  
+        "Content-Description: ".basename($file)."\n" . 
+        "Content-Disposition: attachment;\n" . " filename=\"".basename($file)."\"; size=".filesize($file).";\n" .  
+        "Content-Transfer-Encoding: base64\n\n" . $data . "\n\n"; 
+    } 
+} 
 $message .= "--{$mime_boundary}--"; 
+$returnpath = "-f" . $from; 
 
 //sending mail using mail()
-mail($to, $subject, $message, $headers);
+mail($to, $subject, $message, $headers,$returnpath);
 }
 
 $sql = "SELECT email FROM usertable";
@@ -50,7 +67,9 @@ $json = json_decode($json, true);
 //fetching image and title link of random comic from parsed json data
 $image=$json['img'];
 $title=$json['title'];
-
+//creating and downloading the png to send as an attachement in mail
+$img='comicOFtheMoment.png';
+file_put_contents($img, file_get_contents($image));
 //loop for sending comic to all email in db
 if (mysqli_num_rows($result) > 0) {
   // output data of each row
