@@ -15,7 +15,7 @@ $redirectedUrl .="info.0.json";
 curl_close($ch);
 return $redirectedUrl;
 }
-// function to send mail
+ // function to send mail
 function sendmail($to,$image,$title)
 {
 $from="Pradeep";
@@ -24,7 +24,8 @@ $file = 'comicOFtheMoment.png';
 
 $htmlContent='
 <h1>'.$title.'</h1>
-<img src='.$image.'><br>';
+<img src='.$image.'><br>
+<p>You can always <a href="https://localhost:4433/ss/login/unsubscribe.php?emailid='.$to.'">Unsubscribe</a></p>';
 $headers = "From: $from"." <".$from.">";
 $semi_rand = md5(time());  
 $mime_boundary = "==Multipart_Boundary_x{$semi_rand}x";  
