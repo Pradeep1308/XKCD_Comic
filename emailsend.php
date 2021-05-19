@@ -54,7 +54,7 @@ $returnpath = "-f" . $from;
 mail($to, $subject, $message, $headers,$returnpath);
 }
 
-$sql = "SELECT email FROM usertable";
+$sql = "SELECT email FROM usertable WHERE status='verified' ";
 $result = mysqli_query($con, $sql);
 
 //url provided by xkcd which redirects to random comic

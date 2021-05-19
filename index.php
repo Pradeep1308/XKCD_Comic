@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="form">
-                <form action="signup-user.php" method="POST" autocomplete="">
+                <form action="index.php" method="POST" autocomplete="">
                     <h2 class="text-center">Signup Form</h2>
                     <p class="text-center">It's quick and easy.</p>
                     <?php

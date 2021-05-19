@@ -36,7 +36,7 @@
                     <div >
                         <input class="form-control button" type="submit" name="login" value="Login">
                     </div>
-                    <div class="link login-link text-center">Not yet a member? <a href="signup-user.php">Signup now</a></div>
+                    <div class="link login-link text-center">Not yet a member? <a href="index.php">Signup now</a></div>
                 </form>
             </div>
         </div>
